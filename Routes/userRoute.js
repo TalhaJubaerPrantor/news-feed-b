@@ -13,7 +13,7 @@ router.post('/register', async (req, res) => {
         
     const userExists = await userModel.findOne({ email });
     if(!userExists){
-        const newUser = new userModel({ name, email, password ,scrollIntensity:5,theme:"cyan",font:"arial"});
+        const newUser = new userModel({ name, email, password ,scrollIntensity:5000,theme:"cyan",font:"arial"});
         await newUser.save()
         .then(res.send({ status: 200 ,user: newUser}))
     }else{
