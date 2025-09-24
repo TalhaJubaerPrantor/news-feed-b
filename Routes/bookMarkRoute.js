@@ -35,6 +35,30 @@ res.json(news);
 })
 
 
+router.put("/deletebookmark", async (req, res) => {
+  try {
+    const { deletePref, loggedEmail } = req.body;
+
+    // Find the user
+    const user = await userModel.findOne({ email: loggedEmail });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Filter out the item to delete
+    const newPrefArray = user.preferences.filter(pref => pref !== deletePref);
+
+    // Update user document
+    user.preferences = newPrefArray;
+    await user.save();
+
+    res.send({
+      status:200,
+      preferences: user.preferences
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 

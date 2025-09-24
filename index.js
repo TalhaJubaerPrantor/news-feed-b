@@ -38,19 +38,11 @@ app.get("/bookmarks/:email",bookMarkRoute)
 app.put("/addprefernce",preferenceRoute)
 app.get("/prefernce/:email",preferenceRoute)
 app.put("/deletepreference",preferenceRoute)
+app.post("/googledetails",userRoute)
+app.post("/deletebookmark",bookMarkRoute)
 
 
-
-// app.post("/login", (req, res) => {
-//     console.log("Login endpoint hit");
-// });
-
-// app.post("/register", (req, res) => {
-//     console.log("Register endpoint hit");
-// });
-
-
-mongoose.connect("mongodb://localhost:27017/hud", {
+mongoose.connect("mongodb+srv://talhajubaer3121:7264@cluster0.timlqzl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

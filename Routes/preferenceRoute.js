@@ -10,7 +10,6 @@ router.get("/prefernce/:email", async (req, res) => {
 
 router.put("/addprefernce", async (req, res) => {
     const {newPref,loggedEmail}=req.body;
-    console.log(loggedEmail)
     const user = await userModel.findOne( {email:loggedEmail} )
     let markFlag=0;
     for(let i=0;i<user.preferences.length;i++){
@@ -28,22 +27,22 @@ router.put("/addprefernce", async (req, res) => {
 
 router.put("/deletepreference", async (req, res) => {
   try {
-    const { deletePref, loggedEmail } = req.body;
+    const { id, loggedEmail } = req.body;
 
     // Find the user
     const user = await userModel.findOne({ email: loggedEmail });
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Filter out the item to delete
-    const newPrefArray = user.preferences.filter(pref => pref !== deletePref);
+    const newBookedArray = user.bookmarkedNews.filter(bookedNews => bookedNews !== id);
 
     // Update user document
-    user.preferences = newPrefArray;
+    user.bookmarkedNews = newBookedArray;
     await user.save();
 
     res.send({
       status:200,
-      preferences: user.preferences
+      bookmarkedNews: user.bookmarkedNews
     });
   } catch (err) {
     console.error(err);
@@ -52,23 +51,6 @@ router.put("/deletepreference", async (req, res) => {
 });
 
  
-// router.put("/reqbookmark", async (req, res) => {
-//     // console.log(req.body);
-//     const { newsId, email } = req.body;
-//     const user = await userModel.findOne({ email })
-//     // check already added the bookmark
-//     let markFlag = 0;
-//     for (let i = 0; i < user.bookmarkedNews.length; i++) {
-//         if (user.bookmarkedNews[i] == newsId) {
-//             markFlag = 1
-//         }
-//     }
-//     if (!markFlag) {
-//         user.bookmarkedNews.push(newsId)
-//         user.save()
-//         res.send({id:newsId})
-//     }
-// })
 
 
 module.exports = router;  

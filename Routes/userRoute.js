@@ -33,4 +33,17 @@ router.post('/login', async (req, res) => {
 
 })
 
+router.post('/googledetails',async (req,res)=>{
+    const {name,email,password}=req.body;
+    const user=await userModel.findOne({email})
+    if(user){
+       res.send({ status: 200, user: user });
+    }else{
+        const newUser = new userModel({ name, email, password ,scrollIntensity:5000,theme:"cyan",font:"arial"});
+        await newUser.save()
+        .then(res.send({ status: 200 ,user: newUser}))
+    }
+})
+
+
 module.exports = router;
